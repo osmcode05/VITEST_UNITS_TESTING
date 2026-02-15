@@ -12,5 +12,8 @@
   "type": "module",
   "devDependencies": {
     "vitest": "^4.0.18"
+  },
+  "dependencies": {
+    "axios": "^1.13.5"
   }
 }

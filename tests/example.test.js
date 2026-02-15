@@ -1,5 +1,3 @@
-import { describe, it, expect, test } from "vitest";
-import { GetLongStreng, isPrime, Factorial } from "../example";
 
 // ** describe ** : used to group related tests together
 
@@ -12,6 +10,8 @@ import { GetLongStreng, isPrime, Factorial } from "../example";
 // ** each ** : used to run the same test multiple times with different data.
 // lets you write one test, then execute it many times with different inputs and expected results.
 
+import { describe, it, expect, test } from "vitest";
+import { GetLongStreng, isPrime, Factorial } from "../src/example";
 
 // ================== Test StinLongtest functing ==================
 describe("Test StinLongtest functing ", () => {
@@ -46,7 +46,7 @@ describe("Test isPrime functing ", () => {
   it("should retun FALSE if the input not a number or Number lowest than 1 or integer num ", () => {
     expect(isPrime("17")).toBeFalsy();
     expect(isPrime(-6)).toBeFalsy();
-    expect(isPrime(2.5)).toBeFalsy();
+    expect(isPrime(2.5)).toEqual(expect.any(Boolean)); // asymetric matcher
   });
 });
 
@@ -81,6 +81,7 @@ expect("hello world").toContain("world"); // result should contain "world"
 expect(arr).toContain(2); // result should contain 2
 expect(arr).toHaveLength(5); // result should have length of 5
 expect(arr).not.toContain(7); // result should not contain 7
+expect(arr).toBeInstanceOf(Array); // result should be instance of Array
 
 // object matchers
 let obj = { name: "osm", age: 30 };
@@ -88,6 +89,29 @@ expect(obj).toEqual({ name: "osm", age: 30 }); // result should be equal objects
 expect(obj).toMatchObject({ name: "osm" }); // result should match object with name property
 expect(obj).not.toMatchObject({ age: 25 }); // result should not match object with age 25
 expect(obj).toHaveProperty("name"); // result should have property "name"
+expect(obj).toBeInstanceOf(Object); // result should be instance of Object
+
+// ** NOTE ** : Common mistake : Using toBe with objects ({objects} & [arrays]), use toEqual instead
+
+// ================== Asymmetric Matchers ==================
+
+expect(isPrime("test")).toEqual(expect.any(Boolean)) // result should be of type boolean
+
+expect(GetLongStreng("osm", "moh")).toEqual(expect.anything()) // result should be anything except null or undefined
+
+expect({ name: "osm", age: 25 }).toEqual(
+  expect.objectContaining({ name: expect.any(String) })
+); // result should be object containing name property of type string
+
+expect([1, 2, 3, 4]).toEqual(
+  expect.arrayContaining([2, 4])
+)// result should be array containing 2 and 4
+
+expect('hello world').toEqual(
+  expect.stringContaining('world')
+)// result should be string containing 'world'
+
+
 
 // ================== Test factorial function ==================
 
